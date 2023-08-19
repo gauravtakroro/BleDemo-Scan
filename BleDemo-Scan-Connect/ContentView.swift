@@ -18,9 +18,15 @@ struct ContentView: View {
 
             // List of discovered peripherals filtered by search text
             List(bleScanner.discoveredPeripheralDevices, id: \.peripheralDevice.identifier) { discoveredPeripheralDevice in
-                Text(discoveredPeripheralDevice.peripheralDevice.name ?? "Unknown Device").onTapGesture {
-                    bleScanner.centralManager.connect(discoveredPeripheralDevice.peripheralDevice, options: nil)
-                }
+                HStack {
+                    Text(discoveredPeripheralDevice.peripheralDevice.name ?? "Unknown Device").bold().frame(alignment: .leading)
+                    Spacer()
+                    Image("_next").frame(alignment: .trailing)
+                }.frame(maxWidth: .infinity)
+                    .onTapGesture {
+                        print("Ble Device Tapped")
+                      //  bleScanner.centralManager.connect(discoveredPeripheralDevice.peripheralDevice, options: nil)
+                    }
             }.padding(.top, 16)
 
             // Button for starting or stopping scanning
