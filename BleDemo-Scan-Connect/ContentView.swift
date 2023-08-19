@@ -41,7 +41,12 @@ struct ContentView: View {
                     self.searchText.isEmpty ? true : $0.peripheralDevice.name?.lowercased().contains(self.searchText.lowercased()) == true
                 }, id: \.peripheralDevice.identifier) { discoveredPeripheralDevice in
                     VStack (alignment: .leading) {
-                        Text(discoveredPeripheralDevice.peripheralDevice.name ?? "Unknown Device").bold()
+                        Button {
+                            print("Ble Device tapped \(String(describing: discoveredPeripheralDevice.peripheralDevice.name))")
+                            // bleScanner.centralManager.connect(discoveredPeripheralDevice.peripheralDevice)
+                        } label: {
+                            Text(discoveredPeripheralDevice.peripheralDevice.name ?? "Unknown Device").bold()
+                        }
                         if $showAdvertisementData.wrappedValue {
                             Text(discoveredPeripheralDevice.advertisedData)
                                 .font(.caption)

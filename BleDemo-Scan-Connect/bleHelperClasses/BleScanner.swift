@@ -108,6 +108,26 @@ class BleScanner: NSObject, CBCentralManagerDelegate, ObservableObject {
             }
         }
     }
+    
+    func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
+        if let services = peripheral.services, services.count > 0 {
+            for service in services {
+                print("discovered peripheral has following service: \(service)")
+                peripheral.discoverCharacteristics(nil, for: service)
+            }
+        } else {
+            print("discovered peripheral has NO service")
+        }
+    }
+    
+    func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
+        
+        guard let characteristics = service.characteristics else { return }
+        
+        for characteristic in characteristics {
+            print("characterstic in service is: \(characteristic)")
+        }
+    }
 }
 
 extension BleScanner: CBPeripheralDelegate {
