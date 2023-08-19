@@ -9,7 +9,7 @@ import SwiftUI
 import CoreBluetooth
 
 struct DiscoveredPeripheralDevice {
-    // Struct to represent a discovered peripheral
+    // Struct to represent a discovered peripheral device
     var peripheralDevice: CBPeripheral
     var advertisedData: String
 }
@@ -44,7 +44,7 @@ class BleScanner: NSObject, CBCentralManagerDelegate, ObservableObject {
             timer?.invalidate()
             timer = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true) { [weak self] timer in
                 self?.centralManager.stopScan()
-                self?.centralManager.scanForPeripherals(withServices: nil)
+                self?.centralManager.scanForPeripherals(withServices: nil, options: nil)
             }
         }
     }
@@ -108,5 +108,24 @@ class BleScanner: NSObject, CBCentralManagerDelegate, ObservableObject {
             }
         }
     }
+}
+
+extension BleScanner: CBPeripheralDelegate {
+    
+    func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
+        print("didConnect \(String(describing: peripheral.name))")
+        peripheral.delegate = self
+
+        peripheral.discoverServices(nil)
+    }
+    
+    func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
+        print("didDisconnectPeripheral \(String(describing: peripheral.name))")
+    }
+    
+    func centralManager(_ central: CBCentralManager, connectionEventDidOccur event: CBConnectionEvent, for peripheral: CBPeripheral) {
+        print("connectionEventDidOccur \(event.rawValue)")
+    }
+    
 }
 

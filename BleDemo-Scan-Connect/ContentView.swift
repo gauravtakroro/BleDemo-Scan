@@ -11,20 +11,12 @@ import CoreBluetooth
 struct ContentView: View {
     @ObservedObject private var bleScanner = BleScanner()
     @State private var searchText = ""
-    @State var showBleDeviceDetailsUi = false
-   
-    func buildView() -> some View {
-        return AnyView(Text("DetailView"))
-    }
+    @State var showAdvertisementData = false
+    
     var body: some View {
-        NavigationView {
             VStack {
-                NavigationLink(
-                    destination: buildView(), isActive: $showBleDeviceDetailsUi
-                ) {
-                    EmptyView()
-                }.isDetailLink(false)
                 Text("List of Scanned Ble Devices").font(.title)
+                    .padding(.top, 24)
                 HStack {
                     // Text field for entering search text
                     TextField("Search", text: $searchText)
@@ -41,26 +33,26 @@ struct ContentView: View {
                     .opacity(searchText == "" ? 0 : 1)
                 }
                 .padding()
+                
+                Toggle("Show Advertisement Data", isOn: $showAdvertisementData).padding()
+                
                 // List of discovered peripherals filtered by search text
                 List(bleScanner.discoveredPeripheralDevices.filter {
                     self.searchText.isEmpty ? true : $0.peripheralDevice.name?.lowercased().contains(self.searchText.lowercased()) == true
                 }, id: \.peripheralDevice.identifier) { discoveredPeripheralDevice in
-                    HStack {
-                        Text(discoveredPeripheralDevice.peripheralDevice.name ?? "Unknown Device").bold().frame(alignment: .leading)
-                        Spacer()
-                        Image("_next").frame(alignment: .trailing)
-                    }.frame(maxWidth: .infinity)
-                        .onTapGesture {
-                            print("Ble Device Tapped")
-                           // showBleDeviceDetailsUi = true
-                           // bleScanner.centralManager.connect(discoveredPeripheralDevice.peripheralDevice, options: nil)
+                    VStack (alignment: .leading) {
+                        Text(discoveredPeripheralDevice.peripheralDevice.name ?? "Unknown Device").bold()
+                        if $showAdvertisementData.wrappedValue {
+                            Text(discoveredPeripheralDevice.advertisedData)
+                                .font(.caption)
+                                .foregroundColor(.gray).padding(.top, 4).padding(.bottom, 16)
                         }
+                    }
                 }.padding(.top, 16)
                 
                 // Button for starting or stopping scanning
                 Button(action: {
-                    showBleDeviceDetailsUi = true
-                    if self.bleScanner.isScanningInProgress {
+                   if self.bleScanner.isScanningInProgress {
                         self.bleScanner.stopScan()
                     } else {
                         self.bleScanner.startScan()
@@ -77,7 +69,6 @@ struct ContentView: View {
                 .background(bleScanner.isScanningInProgress ? Color.red : Color.blue)
                 .foregroundColor(Color.white)
                 .cornerRadius(5.0)
-            }
-        }.ignoresSafeArea()
+            }.ignoresSafeArea()
     }
 }
