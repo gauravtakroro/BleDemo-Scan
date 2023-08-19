@@ -2,7 +2,7 @@
 //  BleDemo_Scan_ConnectApp.swift
 //  BleDemo-Scan-Connect
 //
-//  Created by Roro Solutions LLP on 19/08/23.
+//  Created by Gaurav Tak on 19/08/23.
 //
 
 import SwiftUI
