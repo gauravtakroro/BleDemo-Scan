@@ -11,6 +11,7 @@
 		93A120032A90D8B200C6557B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A120022A90D8B200C6557B /* ContentView.swift */; };
 		93A120052A90D8B500C6557B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 93A120042A90D8B500C6557B /* Assets.xcassets */; };
 		93A120082A90D8B500C6557B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 93A120072A90D8B500C6557B /* Preview Assets.xcassets */; };
+		93A120102A90D99000C6557B /* BleScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A1200F2A90D99000C6557B /* BleScanner.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +20,7 @@
 		93A120022A90D8B200C6557B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		93A120042A90D8B500C6557B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		93A120072A90D8B500C6557B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		93A1200F2A90D99000C6557B /* BleScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BleScanner.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,6 +53,7 @@
 		93A11FFF2A90D8B200C6557B /* BleDemo-Scan-Connect */ = {
 			isa = PBXGroup;
 			children = (
+				93A1200E2A90D96C00C6557B /* bleHelperClasses */,
 				93A120002A90D8B200C6557B /* BleDemo_Scan_ConnectApp.swift */,
 				93A120022A90D8B200C6557B /* ContentView.swift */,
 				93A120042A90D8B500C6557B /* Assets.xcassets */,
@@ -65,6 +68,14 @@
 				93A120072A90D8B500C6557B /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		93A1200E2A90D96C00C6557B /* bleHelperClasses */ = {
+			isa = PBXGroup;
+			children = (
+				93A1200F2A90D99000C6557B /* BleScanner.swift */,
+			);
+			path = bleHelperClasses;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -138,6 +149,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				93A120032A90D8B200C6557B /* ContentView.swift in Sources */,
+				93A120102A90D99000C6557B /* BleScanner.swift in Sources */,
 				93A120012A90D8B200C6557B /* BleDemo_Scan_ConnectApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
