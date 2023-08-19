@@ -6,21 +6,42 @@
 //
 
 import SwiftUI
+import CoreBluetooth
 
 struct ContentView: View {
+    @ObservedObject private var bleScanner = BleScanner()
+    @State private var searchText = ""
+
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
-        }
-        .padding()
-    }
-}
+            Text("List of Scanned Ble Devices").font(.title).padding(.top, 24)
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
+            // List of discovered peripherals filtered by search text
+            List(bleScanner.discoveredPeripheralDevices, id: \.peripheralDevice.identifier) { discoveredPeripheralDevice in
+                Text(discoveredPeripheralDevice.peripheralDevice.name ?? "Unknown Device").onTapGesture {
+                    bleScanner.centralManager.connect(discoveredPeripheralDevice.peripheralDevice, options: nil)
+                }
+            }.padding(.top, 16)
+
+            // Button for starting or stopping scanning
+            Button(action: {
+                if self.bleScanner.isScanningInProgress {
+                    self.bleScanner.stopScan()
+                } else {
+                    self.bleScanner.startScan()
+                }
+            }) {
+                if bleScanner.isScanningInProgress {
+                    Text("Stop Ble Scanning")
+                } else {
+                    Text("Scan for Ble Devices")
+                }
+            }
+            // Button looks cooler this way on iOS
+            .padding()
+            .background(bleScanner.isScanningInProgress ? Color.red : Color.blue)
+            .foregroundColor(Color.white)
+            .cornerRadius(5.0)
+        }
     }
 }
